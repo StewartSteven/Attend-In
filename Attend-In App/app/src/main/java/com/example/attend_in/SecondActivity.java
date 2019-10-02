@@ -10,9 +10,12 @@ import android.widget.Button;
 
 public class SecondActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_second);
 
         Button thirdActivityBtn = (Button) findViewById(R.id.professorLoginScreenBtn); //creates the button called thirdActivityBtn and gets the refrence I.D. for the professor login button button
