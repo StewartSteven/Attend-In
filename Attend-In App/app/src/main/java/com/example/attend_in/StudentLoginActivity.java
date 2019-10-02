@@ -19,5 +19,9 @@ public class StudentLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_login);
+        usernameText = (EditText)findViewById(R.id.professorUserName);
+        passwordText = (EditText)findViewById(R.id.professorPassword);
+        login = (Button)findViewById(R.id.loginbutton);
+
     }
 }
