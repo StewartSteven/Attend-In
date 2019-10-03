@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class StudentLoginActivity extends AppCompatActivity {
     EditText usernameText, passwordText;
@@ -35,6 +36,9 @@ public class StudentLoginActivity extends AppCompatActivity {
                 editor.putString(userName, user);
                 editor.putString(password, pass);
                 editor.commit();
+                String u = loginPrefs.getString("Username", null).toString();
+                String p = loginPrefs.getString("Password", null).toString();
+                Toast.makeText(getApplicationContext(), u +" "+p, Toast.LENGTH_LONG).show();
             }
         });
 
