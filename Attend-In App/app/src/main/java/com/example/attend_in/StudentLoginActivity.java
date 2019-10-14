@@ -38,15 +38,34 @@ public class StudentLoginActivity extends AppCompatActivity {
     }
 
     protected static String generateMD5(String uname, String pword) {
+        //Concatenates the username and password together; Using a colon to separate them
+        String combo = uname + ":" + pword;
         String hash = "";
         MessageDigest md = null;
-        try{
-            md = MessageDigest.getInstance("MD5");
+
+        //Creates the hash, surrounding it with a Try - Catch to check for a
+        //NoSuchAlgorithm Exception
+        try{md = MessageDigest.getInstance("MD5");
+            //Uses update to hash the string (in bytes)
+            md.update(combo.getBytes());
+            //Uses digest to perform final calculations
+            //Returns a byte array
+            byte msgDigest[] = md.digest();
+
+            //Creates a Hex String
+            StringBuffer hexHash = new StringBuffer();
+            for(int i = 0; i < msgDigest.length; i++){
+                hexHash.append(Integer.toHexString((msgDigest[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            hash = hexHash.toString();
+            return hash;
         } catch(NoSuchAlgorithmException e){
             e.printStackTrace();
+            return "";
         }
 
-        return hash;
+
+
     }
 
 
