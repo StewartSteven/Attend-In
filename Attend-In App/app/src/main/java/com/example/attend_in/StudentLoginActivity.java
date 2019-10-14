@@ -55,7 +55,8 @@ public class StudentLoginActivity extends AppCompatActivity {
             //Creates a Hex String
             StringBuffer hexHash = new StringBuffer();
             for(int i = 0; i < msgDigest.length; i++){
-                hexHash.append(Integer.toHexString((msgDigest[i] & 0xFF) | 0x100).substring(1,3));
+               // hexHash.append(Integer.toHexString((msgDigest[i] & 0xFF) | 0x100).substring(1,3));
+                hexHash.append(msgDigest[i]);
             }
             hash = hexHash.toString();
             return hash;
