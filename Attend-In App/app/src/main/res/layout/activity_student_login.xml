@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".StudentLoginActivity">
 
+
+    <Button
+        android:id="@+id/testApiButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="180dp"
+        android:text="Test API"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/studentLogInTitle"
         android:layout_width="wrap_content"
@@ -63,16 +75,13 @@
         android:id="@+id/studentloginbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginLeft="161dp"
         android:layout_marginTop="436dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginRight="162dp"
         android:layout_marginBottom="247dp"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

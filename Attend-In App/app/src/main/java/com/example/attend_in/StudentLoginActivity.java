@@ -44,7 +44,7 @@ import static java.lang.System.out;
 
 public class StudentLoginActivity extends AppCompatActivity {
     EditText usernameText, passwordText;
-    Button login;
+    Button login, testApi;
 
 
     @Override
@@ -53,9 +53,10 @@ public class StudentLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_login);
         usernameText = (EditText) findViewById(R.id.studentUserName);
         passwordText = (EditText) findViewById(R.id.studentPassword);
+        testApi = (Button) findViewById(R.id.testApiButton);
         login = (Button) findViewById(R.id.studentloginbutton);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        testApi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String user = usernameText.getText().toString();
