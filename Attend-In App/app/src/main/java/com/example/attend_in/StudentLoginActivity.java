@@ -2,7 +2,9 @@ package com.example.attend_in;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +12,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.IOException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -30,6 +43,14 @@ public class StudentLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String user = usernameText.getText().toString();
                 String pass = passwordText.getText().toString();
+                String hash = generateMD5(user, pass);
+                String url = "http://attend-in.com/test_script.php";
+                String apiUrl = url + "?" + "username=" + user +"&" + "password=" + pass;
+                sendRequest(apiUrl);
+
+
+
+
 
             }
         });
@@ -67,6 +88,28 @@ public class StudentLoginActivity extends AppCompatActivity {
 
 
 
+    }
+    private void sendRequest(String url) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest jrequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Toast.makeText(getApplicationContext(), response.getString(""), Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", "response");
+
+                    }
+                }
+    );
     }
 
 
