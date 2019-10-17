@@ -1,5 +1,6 @@
 package com.example.attend_in;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +24,23 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import static java.lang.System.out;
 
 public class StudentLoginActivity extends AppCompatActivity {
     EditText usernameText, passwordText;
@@ -35,7 +51,8 @@ public class StudentLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_login);
-
+        usernameText = (EditText) findViewById(R.id.studentUserName);
+        passwordText = (EditText) findViewById(R.id.studentPassword);
         login = (Button) findViewById(R.id.studentloginbutton);
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +63,7 @@ public class StudentLoginActivity extends AppCompatActivity {
                 String hash = generateMD5(user, pass);
                 String url = "http://attend-in.com/test_script.php";
                 String apiUrl = url + "?" + "username=" + user +"&" + "password=" + pass;
-                sendRequest(apiUrl);
+                new CallApi().execute(apiUrl);
 
 
 
@@ -89,28 +106,66 @@ public class StudentLoginActivity extends AppCompatActivity {
 
 
     }
-    private void sendRequest(String url) {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jrequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Toast.makeText(getApplicationContext(), response.getString(""), Toast.LENGTH_LONG).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", "response");
+        class CallApi extends AsyncTask<String, String, String>{
+            @Override
+            protected void onPreExecute(){
+                super.onPreExecute();
+
+
+            }
+
+            @Override
+            protected String doInBackground(String... params){
+                String urlString = params[0];
+                BufferedReader reader = null;
+                HttpURLConnection urlConnection = null;
+                try{
+                    URL url = new URL(urlString);
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+                    InputStream stream = urlConnection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while((line = reader.readLine()) != null){
+                        buffer.append(line + "/n");
+                        Log.d("Response: ", "> " + line);
 
                     }
+                    return buffer.toString();
+
+                }catch(MalformedURLException e){
+                    e.printStackTrace();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }finally {
+                    if(urlConnection != null){
+                        urlConnection.disconnect();
+                    }
+                    try{
+                        if(reader != null){
+                            reader.close();
+                        }
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+
                 }
-    );
-    }
+                return null;
+
+            }
+
+            protected void onPostExecute(String result){
+                super.onPostExecute(result);
+
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+
+            }
+        }
+
 
 
 }
