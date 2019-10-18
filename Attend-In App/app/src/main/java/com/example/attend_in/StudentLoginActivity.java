@@ -1,9 +1,7 @@
 package com.example.attend_in;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,22 +9,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutionException;
 
 
 public class StudentLoginActivity extends AppCompatActivity {
     EditText usernameText, passwordText;
     Button login, testApi;
-    final String ipStackKey = "e5000ae47a9b292155c2db262da51162";
+    sendAPIRequest requestAPI;
+    private final String ipStackKey = "e5000ae47a9b292155c2db262da51162";
 
 
 
@@ -48,9 +40,19 @@ public class StudentLoginActivity extends AppCompatActivity {
                 String testUrl = "http://attend-in.com/test_script.php";
                 String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
                 String testApiUrl = testUrl + "?" + "username=" + user +"&" + "password=" + pass;
+                String test;
+                requestAPI = new sendAPIRequest(getApplicationContext());
+                requestAPI.execute(ipStackUrl);
+                test = requestAPI.getResponse();
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+                requestAPI = new sendAPIRequest(getApplicationContext());
+                requestAPI.execute(testApiUrl);
+                test = requestAPI.getResponse();
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
 
-                //getApiRequest(testApiUrl);
-                getApiRequest(ipStackUrl);
+
+
+
 
 
 
@@ -94,68 +96,7 @@ public class StudentLoginActivity extends AppCompatActivity {
 
 
     }
-        protected void getApiRequest(String request) {
-            class CallApi extends AsyncTask<String, String, String> {
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
 
-
-                }
-
-                @Override
-                protected String doInBackground(String... params) {
-                    String urlString = params[0];
-                    BufferedReader reader = null;
-                    HttpURLConnection urlConnection = null;
-                    try {
-                        URL url = new URL(urlString);
-                        urlConnection = (HttpURLConnection) url.openConnection();
-                        urlConnection.setRequestMethod("GET");
-                        urlConnection.connect();
-                        InputStream stream = urlConnection.getInputStream();
-                        reader = new BufferedReader(new InputStreamReader(stream));
-
-                        StringBuffer buffer = new StringBuffer();
-                        String line = "";
-
-                        while ((line = reader.readLine()) != null) {
-                            buffer.append(line + "/n");
-                            Log.d("Response: ", "> " + line);
-
-                        }
-                        return buffer.toString();
-
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        if (urlConnection != null) {
-                            urlConnection.disconnect();
-                        }
-                        try {
-                            if (reader != null) {
-                                reader.close();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    return null;
-
-                }
-
-                protected void onPostExecute(String result) {
-                    super.onPostExecute(result);
-                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            new CallApi().execute(request);
-        }
 
 
 
