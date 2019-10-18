@@ -45,6 +45,8 @@ import static java.lang.System.out;
 public class StudentLoginActivity extends AppCompatActivity {
     EditText usernameText, passwordText;
     Button login, testApi;
+    final String ipStackKey = "e5000ae47a9b292155c2db262da51162";
+
 
 
     @Override
@@ -62,9 +64,13 @@ public class StudentLoginActivity extends AppCompatActivity {
                 String user = usernameText.getText().toString();
                 String pass = passwordText.getText().toString();
                 String hash = generateMD5(user, pass);
-                String url = "http://attend-in.com/test_script.php";
-                String apiUrl = url + "?" + "username=" + user +"&" + "password=" + pass;
-                new CallApi().execute(apiUrl);
+                String testUrl = "http://attend-in.com/test_script.php";
+                String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
+                String testApiUrl = testUrl + "?" + "username=" + user +"&" + "password=" + pass;
+
+                //getApiRequest(testApiUrl);
+                getApiRequest(ipStackUrl);
+
 
 
 
@@ -107,64 +113,67 @@ public class StudentLoginActivity extends AppCompatActivity {
 
 
     }
-        class CallApi extends AsyncTask<String, String, String>{
-            @Override
-            protected void onPreExecute(){
-                super.onPreExecute();
+        protected void getApiRequest(String request) {
+            class CallApi extends AsyncTask<String, String, String> {
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
 
-
-            }
-
-            @Override
-            protected String doInBackground(String... params){
-                String urlString = params[0];
-                BufferedReader reader = null;
-                HttpURLConnection urlConnection = null;
-                try{
-                    URL url = new URL(urlString);
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestMethod("GET");
-                    urlConnection.connect();
-                    InputStream stream = urlConnection.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-
-                    StringBuffer buffer = new StringBuffer();
-                    String line = "";
-
-                    while((line = reader.readLine()) != null){
-                        buffer.append(line + "/n");
-                        Log.d("Response: ", "> " + line);
-
-                    }
-                    return buffer.toString();
-
-                }catch(MalformedURLException e){
-                    e.printStackTrace();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }finally {
-                    if(urlConnection != null){
-                        urlConnection.disconnect();
-                    }
-                    try{
-                        if(reader != null){
-                            reader.close();
-                        }
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
 
                 }
-                return null;
 
+                @Override
+                protected String doInBackground(String... params) {
+                    String urlString = params[0];
+                    BufferedReader reader = null;
+                    HttpURLConnection urlConnection = null;
+                    try {
+                        URL url = new URL(urlString);
+                        urlConnection = (HttpURLConnection) url.openConnection();
+                        urlConnection.setRequestMethod("GET");
+                        urlConnection.connect();
+                        InputStream stream = urlConnection.getInputStream();
+                        reader = new BufferedReader(new InputStreamReader(stream));
+
+                        StringBuffer buffer = new StringBuffer();
+                        String line = "";
+
+                        while ((line = reader.readLine()) != null) {
+                            buffer.append(line + "/n");
+                            Log.d("Response: ", "> " + line);
+
+                        }
+                        return buffer.toString();
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (urlConnection != null) {
+                            urlConnection.disconnect();
+                        }
+                        try {
+                            if (reader != null) {
+                                reader.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    return null;
+
+                }
+
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+
+                }
             }
 
-            protected void onPostExecute(String result){
-                super.onPostExecute(result);
-
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-
-            }
+            new CallApi().execute(request);
         }
 
 
