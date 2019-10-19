@@ -1,7 +1,9 @@
 package com.example.attend_in;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,9 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.ExecutionException;
 
 
 public class StudentLoginActivity extends AppCompatActivity {
@@ -39,25 +42,17 @@ public class StudentLoginActivity extends AppCompatActivity {
                 String hash = generateMD5(user, pass);
                 String testUrl = "http://attend-in.com/test_script.php";
                 String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
-                String testApiUrl = testUrl + "?" + "username=" + user +"&" + "password=" + pass;
+                String testApiUrl = testUrl + "?username=" + user +"&password=" + pass + "&hash=" + hash;
                 String test;
                 requestAPI = new sendAPIRequest(getApplicationContext());
                 requestAPI.execute(ipStackUrl);
                 test = requestAPI.getResponse();
                 Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
-                requestAPI = new sendAPIRequest(getApplicationContext());
+                /* requestAPI = new sendAPIRequest(getApplicationContext());
                 requestAPI.execute(testApiUrl);
                 test = requestAPI.getResponse();
-                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
-
-
-
-
-
-
-
-
-
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();*/
+                
 
             }
         });
