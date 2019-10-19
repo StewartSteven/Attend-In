@@ -16,14 +16,19 @@ import java.util.concurrent.ExecutionException;
 public class sendAPIRequest extends AsyncTask<String, String, String> {
     /*
     This is the class used to send API requests.
-    It has two fields:
+    It extends the AsyncTask generic class that is used to send a request in parallel to the main application.
+    In order to be properly utilized, during instantiation the parameter to the constructor must be the current application's context
+    In order to execute the request the execute method must be called, with the following parameters:
+        The Url that is to receive the request, which must include the query string (for now)
+    It has one field:
         Context context, which is used to specify the application context during instantiation by calling getApplicationContext()
-        String requestResult, which is used to hold and return the response from the request
       */
 
     private Context context;
 
     public sendAPIRequest(Context context){
+        //In order to properly use this class, you need to pass the current application's context using
+        // getApplicationContext() as the parameter to the constructor
         this.context = context;
 
     }
@@ -37,6 +42,7 @@ public class sendAPIRequest extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
+        //This method simply sends a http request to the url specified and returns a string to the onPostExecute method
         String urlString = params[0];
         BufferedReader reader = null;
         HttpURLConnection urlConnection = null;
@@ -85,6 +91,7 @@ public class sendAPIRequest extends AsyncTask<String, String, String> {
 
     }
     public String getResponse(){
+        //returns the response from the request
         try {
             return this.get();
         }catch  (InterruptedException e){
