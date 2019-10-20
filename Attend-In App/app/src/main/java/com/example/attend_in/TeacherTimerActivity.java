@@ -3,6 +3,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
@@ -15,18 +16,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.Instant;
 import java.io.IOException;
+import java.util.Locale;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
+import android.widget.TextView;
 
 public class TeacherTimerActivity extends AppCompatActivity {
     Button timerButton;
-    /**
-     * Variables for requiesting permissions, API 25+
-     */
+    TextView timerText;
+    CountDownTimer countdown;
+
+    int timeRunning = 60000;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
@@ -36,6 +40,7 @@ public class TeacherTimerActivity extends AppCompatActivity {
         setContentView(R.layout.acivity_professor_timer);
         verifyStoragePermissions(this);
         timerButton = (Button) findViewById(R.id.triggerTimerButton);
+        timerText = (TextView) findViewById(R.id.timerText);
         timerButton.setTag(0);
         timerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +49,9 @@ public class TeacherTimerActivity extends AppCompatActivity {
                 if(status == 1) {
                     timerButton.setText("Start");
                     v.setTag(0);
+                    countdown.cancel();
+                    timeRunning = 60000;
+                    update();
                     setTimeEnd();
                 } else {
                     timerButton.setText("End");
@@ -87,7 +95,7 @@ public class TeacherTimerActivity extends AppCompatActivity {
         }
 
     }
-    protected static void setTimeStart() {
+    protected void setTimeStart() {
         try {
             JSONObject JSON = makeJSONObject(Instant.now(), false);
             String path = Environment.getExternalStorageDirectory().toString()+"/download";
@@ -96,6 +104,22 @@ public class TeacherTimerActivity extends AppCompatActivity {
             BufferedWriter output = new BufferedWriter(new FileWriter(file,false));
             output.write(JSON.toString());
             output.close();
+            countdown = new CountDownTimer(timeRunning, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    timeRunning = (int) millisUntilFinished;
+                    update();
+                }
+
+                @Override
+                public void onFinish() {
+                    timerButton.setText("Start");
+                    setTimeEnd();
+                    timeRunning = 60000;
+                }
+            };
+            countdown.start();
+
             Log.d("success", "logged in " + path);
         }
         catch (IOException e) {
@@ -112,19 +136,19 @@ public class TeacherTimerActivity extends AppCompatActivity {
         }
         return obj;
     }
-    /**
-     * Checks if the app has permission to write to device storage
-     *
-     * If the app does not has permission then the user will be prompted to grant permissions
-     *
-     * @param activity
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+    private void update() {
+        int minutes = (int) (timeRunning / 1000) / 60;
+        int seconds = (int) (timeRunning / 1000) % 60;
+
+        String timeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+        timerText.setText(timeLeft);
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,
