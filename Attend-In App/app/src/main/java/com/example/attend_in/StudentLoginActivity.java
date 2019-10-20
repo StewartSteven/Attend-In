@@ -1,8 +1,9 @@
 package com.example.attend_in;
 
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,26 +11,48 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 public class StudentLoginActivity extends AppCompatActivity {
     EditText usernameText, passwordText;
-    Button login;
+    Button login, testApi;
+    sendAPIRequest requestAPI;
+    private final String ipStackKey = "e5000ae47a9b292155c2db262da51162";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_login);
-
+        usernameText = (EditText) findViewById(R.id.studentUserName);
+        passwordText = (EditText) findViewById(R.id.studentPassword);
+        testApi = (Button) findViewById(R.id.testApiButton);
         login = (Button) findViewById(R.id.studentloginbutton);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        testApi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String user = usernameText.getText().toString();
                 String pass = passwordText.getText().toString();
+                String hash = generateMD5(user, pass);
+                String testUrl = "http://attend-in.com/test_script.php";
+                String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
+                String testApiUrl = testUrl + "?username=" + user +"&password=" + pass + "&hash=" + hash;
+                String test;
+                requestAPI = new sendAPIRequest(getApplicationContext());
+                requestAPI.execute(ipStackUrl);
+                test = requestAPI.getResponse();
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+                /* requestAPI = new sendAPIRequest(getApplicationContext());
+                requestAPI.execute(testApiUrl);
+                test = requestAPI.getResponse();
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();*/
+                
 
             }
         });
@@ -68,6 +91,8 @@ public class StudentLoginActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
 }
