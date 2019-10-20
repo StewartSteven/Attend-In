@@ -6,16 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
+    ImageButton attendImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        attendImageButton = (ImageButton) findViewById(R.id.attendImage);
 
-        Button secondActivityBtn = (Button) findViewById(R.id.attendInBtn);     //creates the button called secondActivityBtn and gets the refrence I.D. for the attend in button
-        secondActivityBtn.setOnClickListener(new View.OnClickListener() {
+
+        attendImageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
