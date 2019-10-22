@@ -45,7 +45,7 @@ public class StudentLoginActivity extends AppCompatActivity {
                 String testApiUrl = testUrl + "?username=" + user +"&password=" + pass + "&hash=" + hash;
                 String test;
                 requestAPI = new sendAPIRequest(getApplicationContext());
-                requestAPI.execute(testApiUrl);
+                requestAPI.execute(ipStackUrl);
                 test = requestAPI.getResponse();
                 Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
                 /* requestAPI = new sendAPIRequest(getApplicationContext());
