@@ -2,6 +2,7 @@ package com.example.attend_in;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +22,11 @@ public class StudentLoginActivity extends AppCompatActivity {
     EditText usernameText, passwordText;
     Button login, testApi;
     sendAPIRequest requestAPI;
+    private static final String prefs_file = "LoginInfo";
+    private static final String userName = "Username";
+    private static final String password = "Password";
     private final String ipStackKey = "e5000ae47a9b292155c2db262da51162";
-
+    SharedPreferences loginPrefs;
 
 
     @Override
@@ -33,6 +37,25 @@ public class StudentLoginActivity extends AppCompatActivity {
         passwordText = (EditText) findViewById(R.id.studentPassword);
         testApi = (Button) findViewById(R.id.testApiButton);
         login = (Button) findViewById(R.id.studentloginbutton);
+        loginPrefs = getSharedPreferences(prefs_file, Context.MODE_PRIVATE);
+
+        login.setOnClickListener(new View.OnClickListener() {   //Takes user name and password and toasted it at botton of screen after you click login
+            @Override
+            public void onClick(View v){
+                String user = usernameText.getText().toString();
+                String pass = passwordText.getText().toString();
+                SharedPreferences.Editor editor = loginPrefs.edit();
+                editor.putString(userName, user);
+                editor.putString(password, pass);
+                editor.commit();
+                String u = loginPrefs.getString("Username", null).toString();
+                String p = loginPrefs.getString("Password", null).toString();
+                Toast.makeText(getApplicationContext(), u + " " +p, Toast.LENGTH_LONG).show();
+
+            }
+        }
+        );
+
 
         testApi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,10 +71,10 @@ public class StudentLoginActivity extends AppCompatActivity {
                 requestAPI.execute(ipStackUrl);
                 test = requestAPI.getResponse();
                 Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
-                /* requestAPI = new sendAPIRequest(getApplicationContext());
+                requestAPI = new sendAPIRequest(getApplicationContext());
                 requestAPI.execute(testApiUrl);
                 test = requestAPI.getResponse();
-                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();*/
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
                 
 
             }
