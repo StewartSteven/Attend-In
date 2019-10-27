@@ -71,10 +71,10 @@ public class StudentLoginActivity extends AppCompatActivity {
                 requestAPI.execute(ipStackUrl);
                 test = requestAPI.getResponse();
                 Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
-                requestAPI = new sendAPIRequest(getApplicationContext());
+                /*requestAPI = new sendAPIRequest(getApplicationContext());
                 requestAPI.execute(testApiUrl);
                 test = requestAPI.getResponse();
-                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();*/
                 
 
             }
