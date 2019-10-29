@@ -48,8 +48,8 @@ public class StudentLoginActivity extends AppCompatActivity {
                 editor.putString(userName, user);
                 editor.putString(password, pass);
                 editor.commit();
-                String u = loginPrefs.getString("Username", null).toString();
-                String p = loginPrefs.getString("Password", null).toString();
+                String u = loginPrefs.getString("Username", null);
+                String p = loginPrefs.getString("Password", null);
                 Toast.makeText(getApplicationContext(), u + " " +p, Toast.LENGTH_LONG).show();
 
             }
@@ -68,13 +68,13 @@ public class StudentLoginActivity extends AppCompatActivity {
                 String testApiUrl = testUrl + "?username=" + user +"&password=" + pass + "&hash=" + hash;
                 String test;
                 requestAPI = new sendAPIRequest(getApplicationContext());
-                requestAPI.execute(ipStackUrl);
-                test = requestAPI.getResponse();
-                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
-                requestAPI = new sendAPIRequest(getApplicationContext());
                 requestAPI.execute(testApiUrl);
                 test = requestAPI.getResponse();
                 Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+               /* requestAPI = new sendAPIRequest(getApplicationContext());
+                requestAPI.execute(testApiUrl);
+                test = requestAPI.getResponse();
+                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();*/
                 
 
             }
