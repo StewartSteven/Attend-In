@@ -1,0 +1,2 @@
+getting class list: http://attend-in.com/test_script.php?function=functionname&student_id=id&md5Hash=hash&Dtime=time
+taking attendance: 
