@@ -47,7 +47,7 @@ public class StudentLoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = loginPrefs.edit();
                 editor.putString(userName, user);
                 editor.putString(password, pass);
-                editor.commit();
+                editor.apply();
                 String u = loginPrefs.getString("Username", null).toString();
                 String p = loginPrefs.getString("Password", null).toString();
                 Toast.makeText(getApplicationContext(), u + " " +p, Toast.LENGTH_LONG).show();
