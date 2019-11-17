@@ -3,6 +3,7 @@ package com.example.attend_in;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -43,7 +44,12 @@ public class ProfessorLoginActivity extends AppCompatActivity {
                                          editor.apply();
                                          String u = loginPrefs.getString("Username", null).toString();
                                          String p = loginPrefs.getString("Password", null).toString();
-                                         Toast.makeText(getApplicationContext(), u + " " + p, Toast.LENGTH_LONG).show();
+                                         //Toast.makeText(getApplicationContext(), u + " " + p, Toast.LENGTH_LONG).show();
+                                         Intent startIntent = new Intent(getApplicationContext(), Professor_Class_Selection.class); // so it can go to the second activity screen once you click on the Attend in button
+                                         startActivity(startIntent);
+
+
+
                                      }
                                  }
         );
