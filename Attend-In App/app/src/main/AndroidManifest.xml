@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/attend"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Professor_Class_Selection"></activity>
+        <activity android:name=".Student_Class_View"></activity>
+        <activity android:name=".Professor_Class_Selection" />
         <activity android:name=".StudentLoginActivity" />
         <activity android:name=".ProfessorLoginActivity" />
         <activity android:name=".SecondActivity" />

@@ -23,7 +23,7 @@ public class ProfessorLoginActivity extends AppCompatActivity {
     private static final String password = "Password";
     private final String ipStackKey = "e5000ae47a9b292155c2db262da51162";
     SharedPreferences loginPrefs;
-
+    sendAPIRequest requestAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +42,18 @@ public class ProfessorLoginActivity extends AppCompatActivity {
                                          editor.putString(userName, user);
                                          editor.putString(password, pass);
                                          editor.apply();
+                                         String x = "Professor Login Created";
                                          String u = loginPrefs.getString("Username", null).toString();
                                          String p = loginPrefs.getString("Password", null).toString();
-                                         //Toast.makeText(getApplicationContext(), u + " " + p, Toast.LENGTH_LONG).show();
+                                         Toast.makeText(getApplicationContext(), x, Toast.LENGTH_LONG).show();
+                                         String hash = generateMD5(user, pass);
+                                         String testUrl = "http://attend-in.com/test_script.php";
+                                         String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
+                                         String testApiUrl = testUrl + "?username=" + user +"&password=" + pass + "&hash=" + hash;
+                                         String test;
+                                         requestAPI = new sendAPIRequest(getApplicationContext());
+                                         requestAPI.execute(ipStackUrl);
+                                         test = requestAPI.getResponse();
                                          Intent startIntent = new Intent(getApplicationContext(), Professor_Class_Selection.class); // so it can go to the second activity screen once you click on the Attend in button
                                          startActivity(startIntent);
 

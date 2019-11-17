@@ -2,6 +2,7 @@ package com.example.attend_in;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +36,6 @@ public class StudentLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_login);
         usernameText = (EditText) findViewById(R.id.studentUserName);
         passwordText = (EditText) findViewById(R.id.studentPassword);
-        testApi = (Button) findViewById(R.id.testApiButton);
         login = (Button) findViewById(R.id.studentloginbutton);
         loginPrefs = getSharedPreferences(prefs_file, Context.MODE_PRIVATE);
 
@@ -50,18 +50,29 @@ public class StudentLoginActivity extends AppCompatActivity {
                 editor.apply();
                 String u = loginPrefs.getString("Username", null).toString();
                 String p = loginPrefs.getString("Password", null).toString();
-                Toast.makeText(getApplicationContext(), u + " " +p, Toast.LENGTH_LONG).show();
-
+                //Toast.makeText(getApplicationContext(), u + " " +p, Toast.LENGTH_LONG).show();
+                String hash = generateMD5(user, pass);
+                String testUrl = "http://attend-in.com/test_script.php";
+                String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
+                String testApiUrl = testUrl + "?username=" + user +"&password=" + pass + "&hash=" + hash;
+                String test;
+                String x = "Student Login Created";
+                requestAPI = new sendAPIRequest(getApplicationContext());
+                requestAPI.execute(ipStackUrl);
+                test = requestAPI.getResponse();
+                Toast.makeText(getApplicationContext(), x, Toast.LENGTH_LONG).show();
+                Intent startIntent = new Intent(getApplicationContext(), Student_Class_View.class); // so it can go to the second activity screen once you click on the Attend in button
+                startActivity(startIntent);
             }
         }
         );
 
 
-        testApi.setOnClickListener(new View.OnClickListener() {
+       /*testApi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user = usernameText.getText().toString();
-                String pass = passwordText.getText().toString();
+                //String user = usernameText.getText().toString();
+                //String pass = passwordText.getText().toString();
                 String hash = generateMD5(user, pass);
                 String testUrl = "http://attend-in.com/test_script.php";
                 String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
@@ -71,14 +82,15 @@ public class StudentLoginActivity extends AppCompatActivity {
                 requestAPI.execute(ipStackUrl);
                 test = requestAPI.getResponse();
                 Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
-                /*requestAPI = new sendAPIRequest(getApplicationContext());
-                requestAPI.execute(testApiUrl);
-                test = requestAPI.getResponse();
-                Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();*/
+                //requestAPI = new sendAPIRequest(getApplicationContext());
+                //requestAPI.execute(testApiUrl);
+                //test = requestAPI.getResponse();
+                //Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
                 
 
             }
-        });
+        });*/
+
 
 
     }

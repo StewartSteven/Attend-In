@@ -1,5 +1,6 @@
 package com.example.attend_in;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,33 +12,35 @@ import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 
+import android.os.Bundle;
+import android.widget.EditText;
 
-
-public class Professor_Class_Selection extends Activity implements OnClickListener {
-    private Button btnAdd;
+public class Student_Class_View extends Activity implements OnClickListener {
     private EditText et;
     private ListView lv;
-    ArrayList<String> list = new ArrayList<String>();
     ArrayAdapter<String> adapter;
-
+    ArrayList<String> list = new ArrayList<String>();
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_professor__class__selection);
+        setContentView(R.layout.activity_student__class__view);
 
-        btnAdd = (Button) findViewById(R.id.pAddClassBtn);
-        btnAdd.setOnClickListener(this);
-        et = (EditText) findViewById(R.id.editText);
+        // tried to grab classes created form professor create class list
+
+        /*et = (EditText) findViewById(R.id.editText);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, list);
         lv = (ListView) findViewById(R.id.pClassList);
-        lv.setAdapter(adapter);
+        lv.setAdapter(adapter);*/
+
     }
 
     public void onClick(View v) {
         String input = et.getText().toString();
         if (input.length() > 0) {
+            // add string to the adapter, not the listview
             adapter.add(input);
-
+            // no need to call adapter.notifyDataSetChanged(); as it is done by the adapter.add() method
         }
     }
 }
