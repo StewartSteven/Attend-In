@@ -50,10 +50,10 @@ public class ProfessorLoginActivity extends AppCompatActivity {
                                          String testUrl = "http://attend-in.com/test_script.php";
                                          String ipStackUrl = "http://api.ipstack.com/check?access_key=" + ipStackKey;
                                          String testApiUrl = testUrl + "?username=" + user +"&password=" + pass + "&hash=" + hash;
-                                         String test;
+                                         //String test;
                                          requestAPI = new sendAPIRequest(getApplicationContext());
                                          requestAPI.execute(ipStackUrl);
-                                         test = requestAPI.getResponse();
+                                         //test = requestAPI.getResponse();
                                          Intent startIntent = new Intent(getApplicationContext(), Professor_Class_Selection.class); // so it can go to the second activity screen once you click on the Attend in button
                                          startActivity(startIntent);
 

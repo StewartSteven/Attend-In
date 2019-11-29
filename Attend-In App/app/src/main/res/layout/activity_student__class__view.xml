@@ -33,49 +33,14 @@
         app:layout_constraintTop_toBottomOf="@+id/Student_Class_Title"
         app:layout_constraintVertical_bias="0.029" />
 
-    <Button
-        android:id="@+id/st_Class_1_Btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#1939C9"
-        android:text="CSC 1101"
-        android:textColor="#F8F7F7"
-        android:textSize="18sp"
+    <ListView
+        android:id="@+id/s_listView"
+        android:layout_width="403dp"
+        android:layout_height="579dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Student_Class_Select_Title"
-        app:layout_constraintVertical_bias="0.084" />
-
-    <Button
-        android:id="@+id/st_Class_2_Btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#1939C9"
-        android:text="CSC 1102"
-        android:textColor="#F8F7F7"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/st_Class_1_Btn"
-        app:layout_constraintVertical_bias="0.058" />
-
-    <Button
-        android:id="@+id/st_Class_3_Btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#1939C9"
-        android:text="CSC 1103"
-        android:textColor="#F8F7F7"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/st_Class_2_Btn"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintTop_toBottomOf="@+id/Student_Class_Select_Title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
