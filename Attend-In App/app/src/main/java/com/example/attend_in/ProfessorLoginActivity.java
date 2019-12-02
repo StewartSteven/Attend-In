@@ -37,6 +37,7 @@ public class ProfessorLoginActivity extends AppCompatActivity {
                                      @Override
                                      public void onClick(View v) {
                                          String user = usernameText.getText().toString();
+                                         Volatile_DataBase.professorName(user);
                                          String pass = passwordText.getText().toString();
                                          SharedPreferences.Editor editor = loginPrefs.edit();
                                          editor.putString(userName, user);
@@ -54,6 +55,7 @@ public class ProfessorLoginActivity extends AppCompatActivity {
                                          requestAPI = new sendAPIRequest(getApplicationContext());
                                          requestAPI.execute(ipStackUrl);
                                          //test = requestAPI.getResponse();
+                                         Volatile_DataBase.storeValue(0);
                                          Intent startIntent = new Intent(getApplicationContext(), Professor_Class_Selection.class); // so it can go to the second activity screen once you click on the Attend in button
                                          startActivity(startIntent);
 

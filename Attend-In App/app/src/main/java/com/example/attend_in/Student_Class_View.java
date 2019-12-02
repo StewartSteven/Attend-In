@@ -56,6 +56,7 @@ public class Student_Class_View extends Activity implements OnClickListener {
                 String text = "";
                 text = Volatile_DataBase.getClassList(position);
                 Volatile_DataBase.storeTitle(text);
+                //Volatile_DataBase.viewMessage(1);
                 Intent startIntent = new Intent(getApplicationContext(), Dynamic_Class_View.class); // so it can go to the second activity screen once you click on the Attend in button
                 startActivity(startIntent);
             }
