@@ -28,13 +28,17 @@ public class Volatile_DataBase extends Activity {
         view = x;
     }
 
+    public static int viewValue(){
+        return view;
+    }
+
     public static String viewMessage(){
         if (view == 1){
             message = s_name + ", you are marked present.";
             return message;
         }
         if (view == 0){
-            message = p_name + ", students attending this class has 10 mins to attend. \nAfter that they will be considered late.";
+            message = p_name + ", students have until the timer ends to sign-in to be marked present.";
             return message;
         }
         else{

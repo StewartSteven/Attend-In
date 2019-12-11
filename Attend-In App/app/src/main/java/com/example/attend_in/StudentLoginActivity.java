@@ -61,7 +61,9 @@ public class StudentLoginActivity extends AppCompatActivity {
                 requestAPI = new sendAPIRequest(getApplicationContext());
                 requestAPI.execute(ipStackUrl);
                 test = requestAPI.getResponse();
-                Toast.makeText(getApplicationContext(), x, Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getApplicationContext(), testApiUrl, Toast.LENGTH_LONG).show();
+
                 Volatile_DataBase.storeValue(1);
                 Intent startIntent = new Intent(getApplicationContext(), Student_Class_View.class); // so it can go to the second activity screen once you click on the Attend in button
                 startActivity(startIntent);
